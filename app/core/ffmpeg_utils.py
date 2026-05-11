@@ -31,7 +31,7 @@ def ffmpeg_path() -> Optional[str]:
     for c in _candidate_paths():
         if c and Path(c).exists():
             try:
-                subprocess.run([c, "-version"], capture_output=True, check=True, timeout=5)
+                subprocess.run([c, "-version"], capture_output=True, check=True, timeout=5, stdin=subprocess.DEVNULL)
                 return c
             except (subprocess.CalledProcessError, OSError, subprocess.TimeoutExpired):
                 continue
@@ -54,7 +54,7 @@ def status() -> Tuple[bool, str]:
     if not p:
         return False, "FFmpeg tidak ditemukan."
     try:
-        out = subprocess.run([p, "-version"], capture_output=True, text=True, timeout=5).stdout
+        out = subprocess.run([p, "-version"], capture_output=True, text=True, timeout=5, stdin=subprocess.DEVNULL).stdout
         first = out.splitlines()[0] if out else "unknown"
         return True, f"OK: {p}\n{first}"
     except Exception as exc:  # pragma: no cover

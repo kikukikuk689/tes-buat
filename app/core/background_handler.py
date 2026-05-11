@@ -54,6 +54,7 @@ def _ffprobe_duration(path: str) -> float:
             ["ffprobe", "-v", "error", "-show_entries", "format=duration",
              "-of", "default=noprint_wrappers=1:nokey=1", path],
             check=True, capture_output=True, text=True,
+            stdin=subprocess.DEVNULL,
         ).stdout.strip()
         return float(out)
     except (subprocess.CalledProcessError, ValueError):
@@ -77,7 +78,7 @@ def _video_to_image_frames(path: str, size: Tuple[int, int], fps_video_extract: 
         "-i", path,
         "-vf", f"fps={fps_video_extract},scale={w}:{h}:force_original_aspect_ratio=increase,crop={w}:{h}",
         "-q:v", "3", out_pat,
-    ], check=True)
+    ], check=True, stdin=subprocess.DEVNULL)
     return sorted(str(p) for p in tmpdir.glob("frame_*.jpg"))
 
 

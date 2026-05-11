@@ -63,7 +63,11 @@ def extract_audio(input_path: str, target_sr: int = 22050) -> str:
         "-c:a", "pcm_s16le",
         out_path,
     ]
-    subprocess.run(cmd, check=True)
+    # IMPORTANT: stdin=subprocess.DEVNULL is required because ffmpeg reads from
+    # stdin for runtime control commands (q to quit, etc.). When this function is
+    # invoked from a long-running GUI process whose own stdin is connected to a
+    # terminal/pipe, ffmpeg may block indefinitely waiting for input.
+    subprocess.run(cmd, check=True, stdin=subprocess.DEVNULL)
     return out_path
 
 

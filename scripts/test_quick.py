@@ -31,7 +31,7 @@ def trim_audio(src: str, dst: str, seconds: float) -> None:
         "-i", src, "-t", str(seconds),
         "-c:v", "copy", "-c:a", "copy",
         dst,
-    ], check=True)
+    ], check=True, stdin=subprocess.DEVNULL)
 
 
 def main():
