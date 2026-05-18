@@ -1,0 +1,26 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+env/
+
+# Build / temp
+build/
+dist/
+.cache/
+
+# User content (keep folders, ignore contents)
+input/*
+!input/.gitkeep
+output/*
+!output/.gitkeep
+reports/*
+!reports/.gitkeep
+
+# OS / IDE
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
