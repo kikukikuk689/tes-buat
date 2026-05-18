@@ -86,32 +86,48 @@ def pick_direction(snake_body: list, food_pos: tuple,
     blocked = set(snake_body[:-1])
     reverse = (-current_direction[0], -current_direction[1])
 
+    # Cells the snake will occupy *after* the next move (head moves forward,
+    # tail leaves). We don't add the new head cell here: flood_fill needs to
+    # start on a non-blocked cell, and the new head is by definition empty.
+    def _future_blocked() -> set:
+        return set(snake_body[:-1])
+
     # 1) Shortest BFS path toward the food.
     bfs_dir = _bfs_first_step(head, food_pos, blocked)
     if bfs_dir is not None and bfs_dir != reverse:
         nx, ny = head[0] + bfs_dir[0], head[1] + bfs_dir[1]
-        future_blocked = set(snake_body[:-1])
-        future_blocked.add((nx, ny))
-        space = _flood_fill_size((nx, ny), future_blocked)
+        space = _flood_fill_size((nx, ny), _future_blocked())
+        # Make sure following the BFS path still leaves enough room to live.
         if space >= max(3, len(snake_body) // 2):
             return bfs_dir
 
     # 2) Fallback heuristic: maximise reachable space and prefer food proximity.
     best_dir = None
-    best_score = -1
+    best_score = -10 ** 9
     for d in DIRS:
         if d == reverse:
             continue
         nx, ny = head[0] + d[0], head[1] + d[1]
         if not _in_bounds((nx, ny)) or (nx, ny) in blocked:
             continue
-        future_blocked = set(snake_body[:-1])
-        future_blocked.add((nx, ny))
-        space = _flood_fill_size((nx, ny), future_blocked)
+        space = _flood_fill_size((nx, ny), _future_blocked())
+        if space <= 0:
+            continue
         dist = abs(nx - food_pos[0]) + abs(ny - food_pos[1])
         score = space * 100 - dist
         if score > best_score:
             best_score = score
             best_dir = d
 
-    return best_dir if best_dir is not None else current_direction
+    if best_dir is not None:
+        return best_dir
+
+    # 3) Last resort: any legal move (even a tight squeeze) before suiciding.
+    for d in DIRS:
+        if d == reverse:
+            continue
+        nx, ny = head[0] + d[0], head[1] + d[1]
+        if _in_bounds((nx, ny)) and (nx, ny) not in blocked:
+            return d
+
+    return current_direction
