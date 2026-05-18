@@ -176,17 +176,18 @@ def render_app() -> None:
         )
         if st.button("Process", type="primary", disabled=(uploaded is None and not input_path_str)):
             if uploaded is not None:
-                tmp_dir = Path(tempfile.mkdtemp(prefix="asmr_upload_"))
-                tmp_video = tmp_dir / uploaded.name
-                with tmp_video.open("wb") as fh:
-                    shutil.copyfileobj(uploaded, fh)
-                input_video = tmp_video
+                safe_name = Path(uploaded.name).name or "upload.mp4"
+                with tempfile.TemporaryDirectory(prefix="asmr_upload_") as tmp_dir:
+                    input_video = Path(tmp_dir) / safe_name
+                    with input_video.open("wb") as fh:
+                        shutil.copyfileobj(uploaded, fh)
+                    _render_single(input_video, output_dir, target_hours, crossfade_sec, min_loop_sec)
             else:
                 input_video = Path(input_path_str).expanduser()
                 if not is_video_file(input_video):
                     st.error(f"File bukan video yang didukung: {input_video}")
                     return
-            _render_single(input_video, output_dir, target_hours, crossfade_sec, min_loop_sec)
+                _render_single(input_video, output_dir, target_hours, crossfade_sec, min_loop_sec)
     else:
         st.subheader("Folder input")
         input_dir_str = st.text_input("Folder input", value=str(DEFAULT_INPUT_DIR))

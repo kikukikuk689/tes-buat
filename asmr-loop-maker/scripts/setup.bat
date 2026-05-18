@@ -3,12 +3,12 @@ REM Set up a Python virtual environment and install dependencies for the
 REM ASMR Seamless Loop Maker on Windows.
 setlocal
 
-set SCRIPT_DIR=%~dp0
-set PROJECT_DIR=%SCRIPT_DIR%..
+set "SCRIPT_DIR=%~dp0"
+set "PROJECT_DIR=%SCRIPT_DIR%.."
 pushd "%PROJECT_DIR%"
 
-if "%PYTHON_BIN%"=="" set PYTHON_BIN=python
-if "%VENV_DIR%"=="" set VENV_DIR=%CD%\.venv
+if "%PYTHON_BIN%"=="" set "PYTHON_BIN=python"
+if "%VENV_DIR%"=="" set "VENV_DIR=%CD%\.venv"
 
 if not exist "%VENV_DIR%" (
   echo [setup] Creating virtual environment at %VENV_DIR%

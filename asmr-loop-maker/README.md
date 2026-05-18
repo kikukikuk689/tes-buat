@@ -21,7 +21,7 @@ lalu menggabungkan loop tersebut dengan crossfade visual dan audio.
 
 ## Struktur Folder
 
-```
+```text
 asmr-loop-maker/
 ├── app/
 │   ├── __init__.py

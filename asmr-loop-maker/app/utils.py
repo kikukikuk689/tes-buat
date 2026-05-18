@@ -10,6 +10,12 @@ from typing import Sequence
 
 from .config import SUPPORTED_VIDEO_EXTENSIONS
 
+_WINDOWS_RESERVED_NAMES: frozenset[str] = frozenset(
+    {"CON", "PRN", "AUX", "NUL"}
+    | {f"COM{i}" for i in range(1, 10)}
+    | {f"LPT{i}" for i in range(1, 10)}
+)
+
 
 class FFmpegNotFoundError(RuntimeError):
     """Raised when the FFmpeg binary cannot be located on PATH."""
@@ -64,7 +70,11 @@ def safe_filename(name: str) -> str:
     """
 
     cleaned = _SAFE_FILENAME_RE.sub("_", name).strip("._-")
-    return cleaned or "output"
+    cleaned = cleaned or "output"
+    stem = cleaned.split(".", 1)[0].upper()
+    if stem in _WINDOWS_RESERVED_NAMES:
+        cleaned = f"_{cleaned}"
+    return cleaned
 
 
 def run_command(cmd: Sequence[str], check: bool = True) -> subprocess.CompletedProcess[str]:

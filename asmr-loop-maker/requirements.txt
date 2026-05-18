@@ -1,5 +1,5 @@
-opencv-python>=4.8
-numpy>=1.24
-soundfile>=0.12
-streamlit>=1.30
-tqdm>=4.65
+opencv-python>=4.8.1.78
+numpy>=1.26
+soundfile>=0.13.1
+streamlit>=1.54.0
+tqdm>=4.66.3

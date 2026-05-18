@@ -89,6 +89,13 @@ def main(argv: Sequence[str] | None = None) -> int:
     parser = build_parser()
     args = parser.parse_args(argv)
 
+    if args.hours <= 0:
+        parser.error("--hours harus > 0")
+    if args.crossfade < 0:
+        parser.error("--crossfade harus >= 0")
+    if args.min_loop <= 0:
+        parser.error("--min-loop harus > 0")
+
     try:
         ensure_ffmpeg_available()
     except FFmpegNotFoundError as exc:

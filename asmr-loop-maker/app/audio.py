@@ -15,7 +15,39 @@ from .config import (
     FFMPEG_AUDIO_CODEC,
     FFMPEG_VIDEO_CODEC,
 )
-from .utils import find_ffmpeg, run_command
+from .utils import find_ffmpeg, find_ffprobe, run_command
+
+
+def _probe_duration_sec(input_video: str | Path) -> float:
+    """Return the duration of ``input_video`` in seconds, or ``0.0`` if unknown.
+
+    Uses ``ffprobe`` to read the container duration. Failures (missing binary,
+    parse errors) return ``0.0`` so callers can fall back to a default.
+    """
+
+    try:
+        ffprobe = find_ffprobe()
+    except Exception:
+        return 0.0
+    proc = run_command(
+        [
+            ffprobe,
+            "-v",
+            "error",
+            "-show_entries",
+            "format=duration",
+            "-of",
+            "default=noprint_wrappers=1:nokey=1",
+            str(input_video),
+        ],
+        check=False,
+    )
+    if proc.returncode != 0:
+        return 0.0
+    try:
+        return max(0.0, float(proc.stdout.strip()))
+    except (TypeError, ValueError):
+        return 0.0
 
 
 def extract_audio(input_video: str | Path, wav_path: str | Path) -> Path:
@@ -53,7 +85,11 @@ def extract_audio(input_video: str | Path, wav_path: str | Path) -> Path:
     ]
     proc = run_command(cmd, check=False)
     if proc.returncode != 0 or not wav_path.exists() or wav_path.stat().st_size == 0:
-        silence = np.zeros((AUDIO_SAMPLE_RATE, 2), dtype=np.int16)
+        duration_sec = _probe_duration_sec(input_video)
+        if duration_sec <= 0.0:
+            duration_sec = 60.0
+        n_samples = max(2, int(round(duration_sec * AUDIO_SAMPLE_RATE)))
+        silence = np.zeros((n_samples, 2), dtype=np.int16)
         sf.write(str(wav_path), silence, AUDIO_SAMPLE_RATE, subtype="PCM_16")
     return wav_path
 
