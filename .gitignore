@@ -1,0 +1,36 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+.venv/
+venv/
+env/
+build/
+dist/
+
+# IDE
+.vscode/
+.idea/
+
+# Output / temporary files
+output/
+outputs/
+tmp/
+.tmp/
+*.log
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Media test fixtures
+*.mp4
+*.mov
+*.mkv
+*.avi
+*.wav
+*.mp3
+# Allow sample assets if put under fixtures/
+!tests/fixtures/**/*.mp4
+!tests/fixtures/**/*.wav
