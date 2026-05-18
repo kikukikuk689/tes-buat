@@ -37,16 +37,56 @@ asmr-loop-maker/
 ├── output/              # hasil render disimpan di sini
 ├── reports/             # CSV report batch
 ├── scripts/
-│   ├── setup.sh         # buat venv & install deps (macOS/Linux)
-│   ├── setup.bat        # buat venv & install deps (Windows)
-│   ├── run_cli.sh       # contoh batch dari input/ ke output/ (macOS/Linux)
-│   ├── run_cli.bat      # versi Windows
-│   ├── run_ui.sh        # jalankan Streamlit UI (macOS/Linux)
-│   └── run_ui.bat       # versi Windows
+│   ├── setup.sh             # buat venv & install deps (macOS/Linux)
+│   ├── setup.bat            # buat venv & install deps (Windows)
+│   ├── run_cli.sh           # contoh batch dari input/ ke output/ (macOS/Linux)
+│   ├── run_cli.bat          # versi Windows
+│   ├── run_ui.sh            # jalankan Streamlit UI (macOS/Linux)
+│   ├── run_ui.bat           # versi Windows
+│   ├── quickstart.sh        # setup + langsung jalan UI (macOS/Linux)
+│   ├── quickstart.bat       # setup + langsung jalan UI (Windows)
+│   ├── quickstart_cli.sh    # setup + langsung batch render (macOS/Linux)
+│   └── quickstart_cli.bat   # setup + langsung batch render (Windows)
 ├── main.py              # entry point untuk CLI
 ├── requirements.txt
 └── README.md
 ```
+
+## Quickstart (Setup + Run sekali jalan)
+
+Kalau kamu hanya ingin coba cepat, gunakan skrip `quickstart` — skrip ini
+otomatis bikin virtualenv, install dependencies, lalu langsung menjalankan
+UI Streamlit (atau batch CLI).
+
+**FFmpeg tetap harus terinstall lebih dulu** — lihat [Troubleshooting FFmpeg](#troubleshooting-ffmpeg).
+
+```bash
+# macOS/Linux — buka UI Streamlit
+bash scripts/quickstart.sh
+
+# macOS/Linux — batch render input/ -> output/ (1 jam, crossfade 0.8 detik)
+bash scripts/quickstart_cli.sh
+# atau override defaults:
+INPUT=input/clip.mp4 HOURS=3 CROSSFADE=1.0 bash scripts/quickstart_cli.sh
+```
+
+```bat
+:: Windows — buka UI Streamlit
+scripts\quickstart.bat
+
+:: Windows — batch render input\ -> output\
+scripts\quickstart_cli.bat
+
+:: atau override defaults:
+set INPUT=input\clip.mp4
+set HOURS=3
+set CROSSFADE=1.0
+scripts\quickstart_cli.bat
+```
+
+Mau kontrol lebih detail (versi Python custom, hanya install deps,
+run UI/CLI terpisah)? Ikuti langkah manual di [Instalasi](#instalasi) dan
+[Menjalankan](#menjalankan).
 
 ## Instalasi
 
