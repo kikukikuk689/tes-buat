@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>ASMR Broadcast Studio – Remote Control</title>
+  <link rel="stylesheet" href="/static/dashboard.css" />
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <span class="brand-dot"></span>
+      <h1>ASMR Broadcast Studio</h1>
+    </div>
+    <div class="meta">
+      <span id="connection" class="pill pill-idle">connecting…</span>
+      <span id="ffmpegState" class="pill pill-info">ffmpeg: unknown</span>
+    </div>
+  </header>
+
+  <main>
+    <section class="cards">
+      <div class="card">
+        <h3>Live channels</h3>
+        <div class="value" id="liveCount">0</div>
+      </div>
+      <div class="card">
+        <h3>Total channels</h3>
+        <div class="value" id="totalCount">0</div>
+      </div>
+      <div class="card">
+        <h3>CPU</h3>
+        <div class="value" id="cpuValue">0%</div>
+      </div>
+      <div class="card">
+        <h3>Upload</h3>
+        <div class="value" id="netValue">0 kbps</div>
+      </div>
+    </section>
+
+    <section class="channels">
+      <h2>Channels</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Name</th><th>Platform</th><th>State</th><th>FPS</th><th>Bitrate</th><th>Uptime</th><th>Actions</th>
+          </tr>
+        </thead>
+        <tbody id="channelsBody"></tbody>
+      </table>
+    </section>
+
+    <section class="logs">
+      <h2>Recent events</h2>
+      <ul id="events"></ul>
+    </section>
+  </main>
+
+  <footer>
+    <small>Connected via WebSocket. Token must be supplied as query parameter <code>?token=…</code> when configured.</small>
+  </footer>
+
+  <script src="/static/dashboard.js"></script>
+</body>
+</html>

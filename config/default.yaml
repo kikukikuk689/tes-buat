@@ -1,0 +1,73 @@
+general:
+  app_name: ASMR Broadcast Studio
+  language: en
+  auto_launch: false
+  minimize_to_tray: true
+  close_to_tray: true
+  enable_notifications: true
+  sound_alerts: false
+  check_updates: true
+
+streaming:
+  resolution: 1920x1080
+  fps: 30
+  video_bitrate_kbps: 4500
+  audio_bitrate_kbps: 160
+  audio_sample_rate: 44100
+  keyframe_interval_sec: 2
+  preset: veryfast
+  profile: high
+  pixel_format: yuv420p
+  audio_codec: aac
+  video_codec: libx264
+  hw_accel: auto
+  loop_playlist: true
+  shuffle: false
+  crossfade_ms: 0
+  normalize_audio: true
+
+performance:
+  max_parallel_streams: 16
+  enable_smart_cache: true
+  monitor_interval_ms: 1500
+  watchdog_interval_ms: 3000
+  network_check_interval_ms: 5000
+  network_check_url: https://www.google.com/generate_204
+  log_keep_lines: 5000
+
+remote:
+  enabled: false
+  host: 0.0.0.0
+  port: 8765
+  auth_token: ""
+
+youtube:
+  enabled: false
+  client_secret_path: ""
+  default_privacy: unlisted
+  default_category_id: "22"
+  enable_dvr: true
+  latency_preference: low
+
+ai:
+  enabled: false
+  provider: openai
+  api_base: https://api.openai.com/v1
+  model: gpt-4o-mini
+  default_language: en
+
+backup:
+  auto_backup: true
+  interval_hours: 12
+  keep_last: 14
+
+theme:
+  active: cyberpunk
+  accent: "#9D4DFF"
+  enable_animations: true
+  enable_blur: true
+
+licensing:
+  activation_url: ""
+  require_online_activation: false
+  trial_days: 14

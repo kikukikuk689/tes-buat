@@ -1,0 +1,54 @@
+# ASMR Broadcast Studio - production requirements
+# Python 3.12+
+
+# GUI
+PySide6>=6.6.0
+
+# Core async / data
+pydantic>=2.5
+PyYAML>=6.0
+SQLAlchemy>=2.0
+alembic>=1.13
+
+# System / process monitoring
+psutil>=5.9
+watchdog>=4.0
+
+# Security
+cryptography>=42.0
+
+# HTTP
+httpx>=0.27
+requests>=2.31
+
+# Media / downloads
+yt-dlp>=2024.4.9
+
+# Scheduling
+schedule>=1.2
+APScheduler>=3.10
+
+# Web dashboard / remote control
+fastapi>=0.110
+uvicorn[standard]>=0.29
+python-socketio>=5.11
+websockets>=12.0
+jinja2>=3.1
+python-multipart>=0.0.9
+
+# System tray
+pystray>=0.19
+Pillow>=10.2
+
+# YouTube API (real OAuth + Data API v3)
+google-auth>=2.29
+google-auth-oauthlib>=1.2
+google-api-python-client>=2.125
+
+# Optional: OpenAI-compatible AI assistance (used only if API key provided)
+openai>=1.20
+
+# Build
+nuitka>=2.1
+ordered-set>=4.1
+zstandard>=0.22
