@@ -1,0 +1,37 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "asmr-broadcast-studio"
+version = "1.0.0"
+description = "Professional 24/7 ASMR multi-channel live streaming broadcasting engine"
+readme = "README.md"
+requires-python = ">=3.12"
+authors = [{ name = "ASMR Broadcast Studio" }]
+license = { text = "Proprietary" }
+keywords = ["streaming", "rtmp", "ffmpeg", "broadcast", "asmr", "youtube", "twitch"]
+
+[tool.setuptools]
+packages = ["app"]
+
+[tool.ruff]
+line-length = 110
+target-version = "py312"
+extend-exclude = ["build", "dist", "assets"]
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "UP", "B", "C4", "SIM"]
+ignore = [
+    "E501",   # line length – we already enforce 110 via line-length
+    "E741",   # ambiguous one-letter name (intentional in tight numeric loops)
+    "B008",   # function call default
+    "UP042",  # str+Enum mixin – preferred over StrEnum for SQLAlchemy Enum() column
+    "SIM105", # try/except/pass is more readable than contextlib.suppress in tight loops
+    "SIM102", # nested if (deliberate for readability)
+    "C416",   # list comprehension over generator – harmless and explicit
+]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q"
